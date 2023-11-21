@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FullScreenIntentNotification.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace FullScreenIntentNotification;
 public static class MauiProgram
@@ -15,8 +16,14 @@ public static class MauiProgram
             });
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
+
+#if ANDROID
+        builder.Services.AddSingleton<IAlarmScheduler, Platforms.Android.Services.AlarmServices.AlarmScheduler>();
+#endif
+        builder.Services.AddTransient<MainPage>();
+        builder.Services.AddTransient<MainPageViewModel>();
 
         return builder.Build();
     }
