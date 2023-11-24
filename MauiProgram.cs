@@ -1,5 +1,6 @@
 ﻿using FullScreenIntentNotification.Interfaces;
 using Microsoft.Extensions.Logging;
+using Plugin.LocalNotification;
 
 namespace FullScreenIntentNotification;
 public static class MauiProgram
@@ -24,6 +25,7 @@ public static class MauiProgram
 #endif
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<MainPageViewModel>();
+        builder.Services.AddSingleton(_ => LocalNotificationCenter.Current);
 
         return builder.Build();
     }
