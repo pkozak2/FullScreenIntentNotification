@@ -1,6 +1,9 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Provider;
+using AndroidX.Core.Content;
 
 namespace FullScreenIntentNotification;
 [Activity(Theme = "@style/Maui.SplashTheme",
@@ -19,5 +22,22 @@ public class MainActivity : MauiAppCompatActivity
         base.OnCreate(savedInstanceState);
         SetShowWhenLocked(true);
         SetTurnScreenOn(true);
+        RequestedPermission();
+    }
+
+    private void RequestedPermission()
+    {
+        if (Build.VERSION.SdkInt >= BuildVersionCodes.UpsideDownCake)
+        {
+            var nManager = (NotificationManager)MainApplication.Context.GetSystemService(Context.NotificationService);
+            if (!nManager.CanUseFullScreenIntent())
+            {
+                var intent = new Intent();
+                intent.SetAction(Settings.ActionManageAppUseFullScreenIntent);
+                intent.SetData(Android.Net.Uri.Parse($"package:{MainApplication.Context.PackageName}"));
+                intent.AddFlags(ActivityFlags.NoHistory);
+                ContextCompat.StartActivity(MainApplication.Context, intent, null);
+            }
+        }
     }
 }

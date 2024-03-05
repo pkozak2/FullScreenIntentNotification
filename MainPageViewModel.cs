@@ -25,18 +25,22 @@ public partial class MainPageViewModel : ObservableObject
         {
             Android = new AndroidOptions
             {
-                ChannelId = "com.group10.healthmate",
+                ChannelId = "com.group10.healthmate1",
                 IconLargeName = notificationIcon,
                 IconSmallName = notificationIcon,
                 IsGroupSummary = true,
-                LaunchApp = new AndroidLaunch(),
+                LaunchApp = new AndroidLaunch() { InHighPriority = true },
                 Priority = AndroidPriority.Max,
+                LaunchAppWhenTapped = true,
+                PendingIntentFlags = AndroidPendingIntentFlags.Immutable | AndroidPendingIntentFlags.UpdateCurrent,
+                Ongoing = true,
+                When = DateTime.Now,
                 VibrationPattern = [200, 300, 200, 300, 200, 300],
                 VisibilityType = AndroidVisibilityType.Public
             },
-            CategoryType = NotificationCategoryType.Alarm,
+            CategoryType = NotificationCategoryType.Service,
             Description = "Test description",
-            Group = "com.group10.healthmate",
+            //Group = "com.group10.healthmate",
             //Image = new NotificationImage
             //{
             //    FilePath
@@ -47,9 +51,11 @@ public partial class MainPageViewModel : ObservableObject
                 Android = new AndroidScheduleOptions
                 {
                     AlarmType = AndroidAlarmType.RtcWakeup,
+
                 },
                 NotifyTime = DateTime.Now.AddSeconds(5),
-                RepeatType = NotificationRepeat.No
+                RepeatType = NotificationRepeat.No,
+
             },
             Subtitle = "subtitle",
             Title = "title"

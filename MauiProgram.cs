@@ -10,6 +10,29 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseLocalNotification(options =>
+            {
+                options.AddAndroid(o =>
+                {
+                    // o.AddChannelGroup(new Plugin.LocalNotification.AndroidOption.NotificationChannelGroupRequest
+                    // {
+                    //     Group = "com.group10.healthmate",
+                    //     Name = "com.group10.healthmate"
+                    // });
+                    o.AddChannel(new Plugin.LocalNotification.AndroidOption.NotificationChannelRequest
+                    {
+                        Id = "com.group10.healthmate1",
+                        Name = "TEST",
+                        Importance = Plugin.LocalNotification.AndroidOption.AndroidImportance.Max,
+                        Description = "g",
+                        ShowBadge = true,
+                        //Group = "com.group10.healthmate",
+                        LockScreenVisibility = Plugin.LocalNotification.AndroidOption.AndroidVisibilityType.Public,
+                        CanBypassDnd = true,
+
+                    });
+                });
+            })
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -25,7 +48,7 @@ public static class MauiProgram
 #endif
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<MainPageViewModel>();
-        builder.Services.AddSingleton(_ => LocalNotificationCenter.Current);
+        //builder.Services.AddSingleton(_ => LocalNotificationCenter.Current);
 
         return builder.Build();
     }
